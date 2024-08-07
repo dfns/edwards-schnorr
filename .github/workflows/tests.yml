@@ -8,7 +8,7 @@ jobs:
   check_readme:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
         node-version: 20
@@ -20,3 +20,22 @@ jobs:
         cp README.md README-copy.md
         ./compile_readme.sh
         diff README.md README-copy.md
+  compile_rust:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: Swatinem/rust-cache@v2
+      with:
+        cache-on-failure: "true"
+    - name: Build
+      run: cargo build --release --all-features
+    - uses: actions/upload-artifact@v4
+      with:
+        name: rust-schnorr-sign
+        path: target/release/edwards-schnorr
+        if-no-files-found: error
+    - uses: actions/upload-artifact@v3
+      with:
+        name: eddsa
+        path: target/release/eddsa
+        if-no-files-found: error
