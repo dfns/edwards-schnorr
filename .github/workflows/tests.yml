@@ -1,0 +1,22 @@
+name: Tests
+
+on:
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  check_readme:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+    - name: Install toc-markdown
+      run: npm install -g markdown-toc
+    - name: Check that readme matches the template
+      run: |
+        cp README.md README-copy.md
+        ./compile_readme.sh
+        diff README.md README-copy.md
