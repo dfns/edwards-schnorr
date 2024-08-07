@@ -40,3 +40,12 @@ signatures.
 ```go
 GO_EXAMPLE
 ```
+
+### Rust
+In Rust, we can use `ed25519-dalek` crate that provides EdDSA signing but also allows
+signing from Schnorr key. However, note that this requires using low-level `hazmat`
+library API which is discouraged to use.
+
+```rust
+RUST_EXAMPLE
+```

@@ -17,6 +17,7 @@ echo '
 
 cat README-tpl.md \
   | sed -e '/GO_EXAMPLE/{r go/sign.go' -e 'd}' \
+  | sed -e '/RUST_EXAMPLE/{r rust/src/main.rs' -e 'd}' \
   >> README.md
 
 markdown-toc -i README.md
