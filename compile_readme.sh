@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if ! command -v markdown-toc
+if ! command -v markdown-toc &> /dev/null
 then
   echo 'Error: `markdown-toc` is not available'
   echo 'Install it via `npm install -g markdown-toc`'

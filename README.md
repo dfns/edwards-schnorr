@@ -11,7 +11,7 @@
 - [Why?](#why)
 - [Solution Overview](#solution-overview)
 - [Examples in different languages](#examples-in-different-languages)
-  * [Example: Go](#example-go)
+  * [Golang](#golang)
 
 <!-- tocstop -->
 
@@ -44,7 +44,7 @@ Complete project per each example can be found in the repo.
 
 > Examples below use third-party libraries which should be used at your own risk.
 
-### Example: Go
+### Golang
 This example uses `kyber` library which implements Schnorr generic over choice of curve. We
 simply use Schnorr signing with `ed25519` suite, which results into EdDSA-compatible
 signatures.
