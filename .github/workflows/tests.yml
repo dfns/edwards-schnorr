@@ -75,5 +75,6 @@ jobs:
         msg="hello!"
         sig=$(./sign-rs $schnorr_sk $msg)
 
+        msg="hello!!"
         ./eddsa verify $pk $msg $sig
     
