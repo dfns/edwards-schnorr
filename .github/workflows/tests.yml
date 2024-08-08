@@ -29,13 +29,49 @@ jobs:
         cache-on-failure: "true"
     - name: Build
       run: cargo build --release --all-features
+    - name: Rename binary
+      run: mv target/release/edwards-schnorr sign-rs
     - uses: actions/upload-artifact@v4
       with:
-        name: rust-schnorr-sign
-        path: target/release/edwards-schnorr
+        name: sign-rs
+        path: sign-rs
         if-no-files-found: error
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: eddsa
         path: target/release/eddsa
         if-no-files-found: error
+  compile_go:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: go build .
+    - name: Rename binary
+      run: mv sign sign-go
+    - uses: actions/upload-artifact@v4
+      with:
+        name: sign-go
+        path: sign-go
+        if-no-files-found: error
+  test_rust:
+    runs-on: ubuntu-latest
+    needs: compile_rust
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        name: eddsa
+    - uses: actions/download-artifact@v4
+      with:
+        name: sign-rs
+    - name: Outputs correct signature
+      run: |
+        eddsa_sk=$(./eddsa keygen)
+        pk=$(./eddsa get-public-key $eddsa_sk)
+
+        schnorr_sk=$(./eddsa to-schnorr-key $eddsa_sk)
+        msg="hello!"
+        sig=$(./sign-rs $schnorr_sk $msg)
+
+        ./eddsa verify $pk $msg $sig
+    
