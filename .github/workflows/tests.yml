@@ -75,6 +75,27 @@ jobs:
         msg="hello!"
         sig=$(./sign-rs $schnorr_sk $msg)
 
-        msg="hello!!"
+        ./eddsa verify $pk $msg $sig
+  test_go:
+    runs-on: ubuntu-latest
+    needs: [compile_rust, compile_go]
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        name: eddsa
+    - uses: actions/download-artifact@v4
+      with:
+        name: sign-go
+    - name: Set file permissions
+      run: chmod +x eddsa sign-go
+    - name: Outputs correct signature
+      run: |
+        eddsa_sk=$(./eddsa keygen)
+        pk=$(./eddsa get-public-key $eddsa_sk)
+
+        schnorr_sk=$(./eddsa to-schnorr-key $eddsa_sk)
+        msg="hello!"
+        sig=$(./sign-go -secret-key $schnorr_sk -message $msg)
+
         ./eddsa verify $pk $msg $sig
     
