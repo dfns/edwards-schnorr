@@ -3,6 +3,7 @@ package main
 import "flag"
 import "encoding/hex"
 import "os"
+import "fmt"
 
 import "github.com/dedis/kyber/sign/schnorr"
 import "github.com/dedis/kyber/suites"
@@ -34,5 +35,5 @@ func main() {
 		panic("signing error: " + err.Error())
 	}
 
-	println(hex.EncodeToString(sig))
+	fmt.Println(hex.EncodeToString(sig))
 }
