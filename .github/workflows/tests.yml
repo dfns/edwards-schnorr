@@ -46,13 +46,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build
-      run: go build .
+      run: (cd go; go build .)
     - name: Rename binary
-      run: mv sign sign-go
+      run: mv go/sign go/sign-go
     - uses: actions/upload-artifact@v4
       with:
         name: sign-go
-        path: sign-go
+        path: go/sign-go
         if-no-files-found: error
   test_rust:
     runs-on: ubuntu-latest
@@ -64,6 +64,8 @@ jobs:
     - uses: actions/download-artifact@v4
       with:
         name: sign-rs
+    - name: Set file permissions
+      run: chmod +x eddsa sign-rs
     - name: Outputs correct signature
       run: |
         eddsa_sk=$(./eddsa keygen)
