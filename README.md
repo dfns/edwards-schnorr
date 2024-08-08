@@ -43,12 +43,16 @@ implemented and you're using a cryptographically secure source of randomness.
 Below you can find examples of doing Schnorr signing that produces EdDSA-compatible signatures.
 Complete project per each example can be found in the repo.
 
-> Examples below use third-party libraries which should be used at your own risk.
+> [!WARNING]
+> Examples below use third-party libraries. Dfns didn't develop nor audit them. Examples exclusively
+> serve demonstration purpose to show how signing could be implemented. Use them at your own risk.
 
 ### Golang
 This example uses `kyber` library which implements Schnorr generic over choice of curve. We
 simply use Schnorr signing with `ed25519` suite, which results into EdDSA-compatible
 signatures.
+
+Complete project can be found in [`./go`](./go)
 
 ```go
 package main
@@ -95,6 +99,8 @@ func main() {
 In Rust, we can use `ed25519-dalek` crate that provides EdDSA signing but also allows
 signing from Schnorr key. However, note that this requires using low-level `hazmat`
 library API which is discouraged to use.
+
+Complete project can be found in [`./rust`](./rust)
 
 ```rust
 fn main() {
